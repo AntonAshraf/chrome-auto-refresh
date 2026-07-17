@@ -11,24 +11,31 @@
     <h3>Auto Refresh</h3>
 </div>
 
-<label for="tabSelect">Tabs</label>
-<div class="helper">Ctrl/Cmd click to select multiple tabs.</div>
-<select id="tabSelect" multiple size="6"></select>
+<label for="tabList">Tabs</label>
+<div class="helper">Click items to select multiple tabs</div>
+<div id="tabList" class="tab-list" role="list"></div>
 
-<br><br>
+<br>
 
-<label>Seconds</label>
-<input id="interval" type="number" min="1" value="10">
-
-<br><br>
-
-<label>Hard Reload Every</label>
-<select id="hardEvery">
-    <option>5</option>
-    <option selected>10</option>
-    <option>20</option>
-    <option>50</option>
-</select>
+<div class="controls-grid">
+    <div class="control-column">
+        <label class="controls-label" for="interval">Seconds</label>
+        <div>
+            <input id="interval" type="number" min="1" value="10">
+        </div>
+    </div>
+    <div class="control-column">
+        <label class="controls-label" for="hardEvery">Hard Reload Every</label>
+        <div>
+            <select id="hardEvery">
+                <option>5</option>
+                <option selected>10</option>
+                <option>20</option>
+                <option>50</option>
+            </select>
+        </div>
+    </div>
+</div>
 
 <br><br>
 
@@ -41,10 +48,11 @@
 
 <button id="toggle" class="start-button">Start</button>
 
-<hr>
 
-<div>Countdown: <span id="countdown">-</span></div>
-<div>Refreshes: <span id="count">0</span></div>
+<div class="status-row">
+    <div class="status-item">Countdown: <span id="countdown">-</span></div>
+    <div class="status-item">Refreshes: <span id="count">0</span></div>
+</div>
 
 <script src="popup.js"></script>
 

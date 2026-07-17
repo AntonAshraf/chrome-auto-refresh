@@ -1,4 +1,4 @@
-const tabSelect = document.getElementById("tabSelect");
+const tabList = document.getElementById("tabList");
 const interval = document.getElementById("interval");
 const hardEvery = document.getElementById("hardEvery");
 const rotateActiveTabs = document.getElementById("rotateActiveTabs");
@@ -19,14 +19,41 @@ async function loadTabs() {
     const tabs = await chrome.tabs.query({ currentWindow: true });
     const status = await chrome.runtime.sendMessage({ action: "status" });
 
-    tabSelect.innerHTML = "";
-    tabSelect.multiple = true;
+    tabList.innerHTML = "";
 
     for (const tab of tabs) {
-        const option = document.createElement("option");
-        option.value = String(tab.id);
-        option.textContent = tab.title || tab.url || `Tab ${tab.id}`;
-        tabSelect.appendChild(option);
+        const item = document.createElement("div");
+        item.className = "tab-item";
+        item.setAttribute("role", "listitem");
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.value = String(tab.id);
+        checkbox.id = `tab-${tab.id}`;
+        checkbox.className = "tab-checkbox";
+
+        const img = document.createElement("img");
+        img.className = "tab-favicon";
+        img.src = tab.favIconUrl || "icons/128.png";
+        img.alt = "";
+        img.onerror = () => { img.src = "icons/128.png"; };
+
+        const label = document.createElement("label");
+        label.htmlFor = checkbox.id;
+        label.className = "tab-label";
+        const titleSpan = document.createElement("span");
+        titleSpan.className = 'tab-title';
+        const fullTitle = tab.title || tab.url || `Tab ${tab.id}`;
+        titleSpan.textContent = fullTitle;
+        titleSpan.title = fullTitle;
+
+        label.appendChild(img);
+        label.appendChild(titleSpan);
+
+        item.appendChild(checkbox);
+        item.appendChild(label);
+
+        tabList.appendChild(item);
     }
 
     const selectedTabIds = Array.isArray(status?.tabIds) && status.tabIds.length
@@ -35,18 +62,18 @@ async function loadTabs() {
             ? [status.tabId]
             : tabs.filter(tab => tab.active).map(tab => tab.id);
 
-    for (const option of tabSelect.options) {
-        option.selected = selectedTabIds.includes(Number(option.value));
+    for (const checkbox of tabList.querySelectorAll("input[type=checkbox]")) {
+        checkbox.checked = selectedTabIds.includes(Number(checkbox.value));
     }
 }
 
-tabSelect.onchange = () => {
-    const selectedTabIds = Array.from(tabSelect.selectedOptions).map(option => Number(option.value));
+tabList.addEventListener("change", () => {
+    const selectedTabIds = Array.from(tabList.querySelectorAll("input[type=checkbox]:checked")).map(cb => Number(cb.value));
     chrome.runtime.sendMessage({
         action: "selectTabs",
         tabIds: selectedTabIds
     });
-};
+});
 
 function update() {
 
@@ -77,7 +104,7 @@ interval.addEventListener("input", sendSettingsUpdate);
 hardEvery.addEventListener("change", sendSettingsUpdate);
 rotateActiveTabs.addEventListener("change", sendSettingsUpdate);
 toggleButton.addEventListener("click", () => {
-    const selectedTabIds = Array.from(tabSelect.selectedOptions).map(option => Number(option.value));
+    const selectedTabIds = Array.from(document.querySelectorAll("#tabList input[type=checkbox]:checked")).map(cb => Number(cb.value));
 
     if (isRunning) {
         chrome.runtime.sendMessage({ action: "stop" });

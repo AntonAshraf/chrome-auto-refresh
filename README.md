@@ -13,6 +13,8 @@ A lightweight browser extension that automatically refreshes one or more selecte
 - ⏱️ Configurable refresh interval (seconds)
 - 💥 Optional hard reload (bypass cache) every **N** refreshes
 - 🔀 Optional active-tab rotation after each refresh cycle
+- 🔔 Optional content-change tracking for selected tabs
+- 📈 Dashboard view with per-tab change counts and links
 - ▶️ Start and stop with a single toggle button
 - ⏳ Live countdown timer
 - 📊 Refresh counter
@@ -32,8 +34,9 @@ A lightweight browser extension that automatically refreshes one or more selecte
 3. Set the refresh interval in seconds.
 4. Choose how often a hard reload should occur.
 5. Optionally enable or disable active-tab rotation.
-6. Click **Start** to begin refreshing.
-7. Click **Stop** to stop refreshing and reset the timer.
+6. Optionally enable content-change tracking and open the dashboard.
+7. Click **Start** to begin refreshing.
+8. Click **Stop** to stop refreshing and reset the timer.
 
 ---
 
@@ -80,8 +83,9 @@ A lightweight browser extension that automatically refreshes one or more selecte
 3. Enter the refresh interval.
 4. Select the hard reload frequency.
 5. (Optional) Enable active-tab rotation.
-6. Click **Start**.
-7. Click **Stop** whenever you want to end the refresh cycle.
+6. (Optional) Enable content-change tracking and open the dashboard.
+7. Click **Start**.
+8. Click **Stop** whenever you want to end the refresh cycle.
 
 ---
 

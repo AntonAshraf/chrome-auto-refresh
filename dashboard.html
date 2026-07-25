@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="dashboard.css">
+<title>Change Dashboard</title>
+</head>
+<body>
+<main class="shell">
+    <header class="hero">
+        <div class="hero-copy">
+            <p class="eyebrow">Simple Auto Refresh</p>
+            <h1>Change Dashboard</h1>
+            <p class="subhead">Only tabs with changes appear here.</p>
+            <div class="hero-status">
+                <div class="hero-stat">
+                    <span>Tracking</span>
+                    <strong id="trackingState">Off</strong>
+                </div>
+                <div class="hero-stat">
+                    <span>Next refresh</span>
+                    <strong id="nextRefresh">-</strong>
+                </div>
+                <div class="hero-stat">
+                    <span>Hard reload</span>
+                    <strong id="nextHardReload">-</strong>
+                </div>
+            </div>
+        </div>
+        <button id="resetButton" class="reset-button" type="button">Reset</button>
+    </header>
+
+    <section>
+        <div id="emptyState" class="empty-state">No tab changes yet.</div>
+        <div id="changeList" class="change-list"></div>
+    </section>
+</main>
+<script src="dashboard.js"></script>
+</body>
+</html>

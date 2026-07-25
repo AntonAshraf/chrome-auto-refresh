@@ -2,6 +2,8 @@ const tabList = document.getElementById("tabList");
 const interval = document.getElementById("interval");
 const hardEvery = document.getElementById("hardEvery");
 const rotateActiveTabs = document.getElementById("rotateActiveTabs");
+const notifyOnContentChange = document.getElementById("notifyOnContentChange");
+const openDashboard = document.getElementById("openDashboard");
 const toggleButton = document.getElementById("toggle");
 let fieldsInitialized = false;
 let isRunning = false;
@@ -11,7 +13,8 @@ function sendSettingsUpdate() {
         action: "updateSettings",
         interval: Number(interval.value),
         hardEvery: Number(hardEvery.value),
-        rotateActiveTabs: rotateActiveTabs.checked
+        rotateActiveTabs: rotateActiveTabs.checked,
+        notifyOnContentChange: notifyOnContentChange.checked
     });
 }
 
@@ -90,6 +93,7 @@ function update() {
             interval.value = res.interval;
             hardEvery.value = String(res.hardEvery);
             rotateActiveTabs.checked = res.rotateActiveTabs !== false;
+            notifyOnContentChange.checked = res.notifyOnContentChange === true;
             fieldsInitialized = true;
         }
 
@@ -103,6 +107,10 @@ function update() {
 interval.addEventListener("input", sendSettingsUpdate);
 hardEvery.addEventListener("change", sendSettingsUpdate);
 rotateActiveTabs.addEventListener("change", sendSettingsUpdate);
+notifyOnContentChange.addEventListener("change", sendSettingsUpdate);
+openDashboard.addEventListener("click", () => {
+    chrome.tabs.create({ url: chrome.runtime.getURL("dashboard.html") });
+});
 toggleButton.addEventListener("click", () => {
     const selectedTabIds = Array.from(document.querySelectorAll("#tabList input[type=checkbox]:checked")).map(cb => Number(cb.value));
 
@@ -115,7 +123,8 @@ toggleButton.addEventListener("click", () => {
         action: "start",
         interval: Number(interval.value),
         hardEvery: Number(hardEvery.value),
-        tabIds: selectedTabIds
+        tabIds: selectedTabIds,
+        notifyOnContentChange: notifyOnContentChange.checked
     });
 });
 
